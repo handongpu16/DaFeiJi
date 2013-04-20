@@ -92,6 +92,12 @@ void Bullet::initialize(int bulletSpeed, const char* weaponType,int attackMode)
         HP--;
     }
 
+CCRect Bullet::collideRect(){
+    CCPoint p = getPosition();
+    return CCRect(p.x - 3, p.y - 3, 6, 6);
+}
+
+
 #if 0
 var Bullet = cc.Sprite.extend({
     active:true,

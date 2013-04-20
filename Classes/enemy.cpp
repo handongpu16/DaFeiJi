@@ -186,6 +186,13 @@ void Enemy::initialize(int enemyType)
         b->setPosition(CCPoint(p.x, p.y - getContentSize().height * 0.2));
  }
 
+CCRect Enemy::collideRect()
+{
+        CCSize a = getContentSize();
+        CCPoint p = getPosition();
+        return CCRect(p.x - a.width/2, p.y - a.height/4,a.width,a.height/2);
+    }
+
  void Enemy::sharedEnemy()
  {
 	 CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(s_Enemy_plist, s_Enemy);

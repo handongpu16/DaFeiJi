@@ -149,6 +149,8 @@ class DaFeiJiObjectInterface{
 public:
 	virtual void destroy() = 0;
 	virtual bool isActive() = 0;
+	virtual cocos2d::CCRect collideRect() = 0;
+	virtual void hurt() = 0;
 };
 
 

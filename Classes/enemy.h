@@ -12,10 +12,10 @@ public:
 
 
 static void sharedEnemy();
+cocos2d::CCRect collideRect();
 private:
 	void initialize(int enemyType);
 	void update(float dt) ;
-
 //implement DaFeiJiObjectInterface
 private:
 	virtual void destroy();

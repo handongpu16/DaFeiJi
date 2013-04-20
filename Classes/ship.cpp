@@ -145,28 +145,19 @@ void Ship::destroy()
 			//CCAudioEngine::getInstance().playEffect(s_shipDestroyEffect);
    //     }
 }
+    void Ship::hurt() 
+	{
+        if (canBeAttack) {
+            _hurtColorLife = 2;
+            HP--;
+            setColor(ccRED);
+        }
+    }
 
-//TODO:º”…œ≈ˆ◊≤ºÏ≤‚∫Õ±¨’®∂Øª≠
- /*   destroy:function () {
-        MW.LIFE--;
-        var p = this.getPosition();
-        var myParent = this.getParent();
-        myParent.addChild( new Explosion(p) );
-        myParent.removeChild(this,true);
-        if (MW.SOUND) {
-            cc.AudioEngine.getInstance().playEffect(s_shipDestroyEffect);
-        }
-    },
-    hurt:function () {
-        if (this.canBeAttack) {
-            this._hurtColorLife = 2;
-            this.HP--;
-            this.setColor(cc.RED);
-        }
-    },
-    collideRect:function(){
-        var p = this.getPosition();
-        var a = this.getContentSize();
-        var r = new cc.rect(p.x - a.width/2, p.y - a.height/2, a.width, a.height/2);
-        return r;
-    }*/
+    CCRect Ship::collideRect()
+	{
+        CCPoint p = getPosition();
+        CCSize a = getContentSize();
+        return CCRect(p.x - a.width/2, p.y - a.height/2, a.width, a.height/2);
+         
+    }

@@ -5,6 +5,7 @@
 
 class Ship;
 class LevelManager;
+class DaFeiJiObjectInterface;
 
 class DaFeiJi: public cocos2d::CCLayer
 {
@@ -37,7 +38,8 @@ private:
 	void processEvent(cocos2d::CCEvent *pEvent) ;
 	void removeInactiveUnit(float dt);
 	void scoreCounter(float dt);
-
+	void checkIsCollide () ;
+    bool collide(DaFeiJiObjectInterface* a,DaFeiJiObjectInterface* b) ;
 public:
 	Ship* _ship;
 private:
@@ -50,7 +52,7 @@ private:
 	bool _isBackSkyReload;
 	bool _isBackTileReload;
     cocos2d::CCSize _winSize;
-
+	cocos2d::CCRect _screenRect;
 
 	cocos2d::CCLabelTTF* _lbLife;
 

@@ -9,6 +9,8 @@ class Ship: public cocos2d::CCSprite, public DaFeiJiObjectInterface
 public:
 	Ship(void);
 	~Ship(void);
+
+	cocos2d::CCRect collideRect();
 private:
 	void initialize();
 	void shoot(float dt);

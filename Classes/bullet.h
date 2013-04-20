@@ -9,6 +9,8 @@ class Bullet: public cocos2d::CCSprite ,public DaFeiJiObjectInterface
 public:
 	Bullet(int,const char*,int);
 	~Bullet(void);
+
+	cocos2d::CCRect collideRect();
 private:
 	void initialize(int bulletSpeed, const char* weaponType,int attackMode);
 	void update(float dt) ;

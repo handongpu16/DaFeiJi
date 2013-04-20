@@ -56,6 +56,8 @@ bool DaFeiJi::init()
 		//_state = STATE_PLAYING;
 
 		_winSize = CCDirector::sharedDirector()->getWinSize();
+		_screenRect = CCRect(0, 0, _winSize.width, _winSize.height + 10);
+
 		initBackground();
 
 
@@ -268,7 +270,7 @@ void DaFeiJi::processEvent(CCEvent *pEvent) {
 
 void DaFeiJi::update(float dt) {
        // if( _state == STATE_PLAYING ) {
-            //checkIsCollide();
+            checkIsCollide();
             removeInactiveUnit(dt);
            // checkIsReborn();
            // updateUI();
@@ -317,6 +319,56 @@ void DaFeiJi::scoreCounter(float dt)
        // }
 }
 
+void DaFeiJi::checkIsCollide () 
+{
+        DaFeiJiObjectInterface* selChild;
+		DaFeiJiObjectInterface*	bulletChild;
+		DaFeiJiObjectInterface* ship = dynamic_cast<DaFeiJiObjectInterface*>(_ship);
+        //check collide
+        unsigned int i =0;
+		for (i = 0; i < g_ENEMIES_CONTAINER->count(); i++) {
+			selChild = dynamic_cast<DaFeiJiObjectInterface*>(g_ENEMIES_CONTAINER->objectAtIndex(i));
+            for (unsigned int j = 0; j < g_PLAYER_BULLETS_CONTAINER->count(); j++) {
+				bulletChild = dynamic_cast<DaFeiJiObjectInterface*>(g_PLAYER_BULLETS_CONTAINER->objectAtIndex(j));
+                if (collide(selChild,bulletChild)) {
+                    bulletChild->hurt();
+                    selChild->hurt();
+                }
+				if (!CCRect::CCRectIntersectsRect(_screenRect, dynamic_cast<CCNode*>(bulletChild)->boundingBox() )) {
+                    bulletChild->destroy();
+                }
+            }
+            if (collide(selChild, dynamic_cast<DaFeiJiObjectInterface*>(_ship))) {
+                if (ship->isActive()) {
+                    selChild->hurt();
+                    ship->hurt();
+                }
+            }
+            if (!CCRect::CCRectIntersectsRect(_screenRect, dynamic_cast<CCNode*>(selChild)->boundingBox() )) {
+                selChild->destroy();
+            }
+        }
+
+		for (i = 0; i < g_ENEMY_BULLETS_CONTAINER->count(); i++) {
+			selChild = dynamic_cast<DaFeiJiObjectInterface*>(g_ENEMY_BULLETS_CONTAINER->objectAtIndex(i));
+             if (collide(selChild, ship)) {
+                if (ship->isActive()) {
+                    selChild->hurt();
+                    ship->hurt();
+                }
+
+            if (!CCRect::CCRectIntersectsRect(_screenRect, dynamic_cast<CCNode*>(selChild)->boundingBox() )) {
+                selChild->destroy();
+            }
+        }
+    }
+}
+   bool DaFeiJi::collide(DaFeiJiObjectInterface* a,DaFeiJiObjectInterface* b)
+   {
+        CCRect aRect = a->collideRect();
+        CCRect bRect = b->collideRect();
+        return CCRect::CCRectIntersectsRect(aRect, bRect);
+    }
 
 #if 0
 STATE_PLAYING = 0;
