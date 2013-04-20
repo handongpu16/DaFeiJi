@@ -4,6 +4,8 @@
 #include "cocos2d.h"
 
 class Ship;
+class LevelManager;
+
 class DaFeiJi: public cocos2d::CCLayer
 {
 public:
@@ -34,7 +36,10 @@ private:
 	void movingBackground (float dt);
 	void processEvent(cocos2d::CCEvent *pEvent) ;
 	void removeInactiveUnit(float dt);
+	void scoreCounter(float dt);
 
+public:
+	Ship* _ship;
 private:
 	cocos2d::CCSprite*    _backSky;
 	cocos2d::CCSprite* _backSkyRe;
@@ -45,8 +50,11 @@ private:
 	bool _isBackSkyReload;
 	bool _isBackTileReload;
     cocos2d::CCSize _winSize;
-	Ship* _ship;
+
 
 	cocos2d::CCLabelTTF* _lbLife;
+
+	long int _time;
+	LevelManager* _levelManager;
 };
 #endif //_DAFEIJI_H_

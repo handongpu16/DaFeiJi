@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\..\..\cocos2dx&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\include&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\kazmath\include&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\platform\win32&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\platform\third_party\win32\OGLES&quot;;..\Classes"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\..\..\cocos2dx&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\include&quot;;&quot;$(SolutionDir)\..\..\..\..\CocosDenshion\include&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\kazmath\include&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\platform\win32&quot;;&quot;$(SolutionDir)\..\..\..\..\cocos2dx\platform\third_party\win32\OGLES&quot;;..\Classes"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glew32.lib libcocos2d.lib"
+				AdditionalDependencies="opengl32.lib glew32.lib libcocos2d.lib libcocosDenshion.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(OutDir)\..\..\..\..\..\Debug.win32&quot;"
@@ -215,11 +215,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Classes\enemy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\enemy.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Classes\HelloWorldScene.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Classes\HelloWorldScene.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\LevelManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\LevelManager.h"
 				>
 			</File>
 			<File

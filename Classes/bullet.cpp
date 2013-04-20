@@ -30,7 +30,9 @@ void Bullet::initialize(int bulletSpeed, const char* weaponType,int attackMode)
         attackMode = attackMode;
 		CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(s_bullet_plist);
         initWithSpriteFrameName(weaponType);
-        //setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+
+		ccBlendFunc bf = {GL_SRC_ALPHA, GL_ONE};
+        setBlendFunc(bf);
         /*var tmpAction;
          switch (this.attackMode) {
          case MW.ENEMY_MOVE_TYPE.NORMAL:
@@ -50,11 +52,21 @@ void Bullet::initialize(int bulletSpeed, const char* weaponType,int attackMode)
         p.x -= xVelocity * dt;
         p.y -= yVelocity * dt;
         setPosition( p );
-        if (HP <= 0) {
+
+
+
+        if (HP <= 0 || isMovedOutOfScreen()) {
             active = false;
         }
 }
 
+ bool  Bullet::isMovedOutOfScreen() {
+ 
+	 CCPoint p = getPosition();
+	 CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+	 return p.x< 0 || p.y < 0 || p.x > screenSize.width || p.y > screenSize.height;
+ }
+ 
 
  void Bullet::destroy () {
 	 //TODO:±¬Õ¨Ð§¹û

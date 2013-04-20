@@ -46,8 +46,9 @@ static const char s_bg01[]                = "bg01.jpg";
 static const char s_level01[]             = "level01.tmx";
 static const char s_ship01[]              = "ship01.png";
 static const char s_bullet_plist[]        = "bullet.plist";
-
-
+static const char s_bgMusic[]			  = "Music/bgMusic.mp3"; //TODO:
+static const char s_Enemy_plist[]		  = "Enemy.plist";
+static const char s_Enemy[]				  = "Enemy.png";
 
 
 
@@ -125,7 +126,7 @@ enum UNIT_TAG{
     ENMEY_BULLET_TAG =900,
     PLAYER_BULLET_TAG =901,
     ENEMY_TAG =1000,
-    PLAYER_TAG =1000
+    PLAYER_TAG =1001
 };
 
 //attack mode

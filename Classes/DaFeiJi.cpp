@@ -1,6 +1,9 @@
 #include "DaFeiJi.h"
 #include "AppMacros.h"
 #include "ship.h"
+#include "SimpleAudioEngine.h"
+#include "LevelManager.h"
+#include "enemy.h"
 
 USING_NS_CC;
 
@@ -8,17 +11,20 @@ USING_NS_CC;
 #define MW_UNIT_TAG_PLAYER 4
 
 
-DaFeiJi::DaFeiJi(void)
+DaFeiJi::DaFeiJi()
 {
 	_backSky = NULL;
 	_backSkyHeight = 0;
 	_backTileMap = NULL;
 	_isBackSkyReload =false;
 	_isBackTileReload = false;
+	_time = 0;
+	
 }
 
 DaFeiJi::~DaFeiJi(void)
 {
+	delete _levelManager;
 }
 
 
@@ -46,62 +52,16 @@ bool DaFeiJi::init()
     {
         return false;
     }
-#if 0
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        this,
-                                        menu_selector(DaFeiJi::menuCloseCallback));
-    
-	pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
-                                origin.y + pCloseItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-    pMenu->setPosition(CCPointZero);
-    this->addChild(pMenu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", TITLE_FONT_SIZE);
-    
-    // position the label on the center of the screen
-    pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - pLabel->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(pLabel, 1);
-
-    // add "HelloWorld" splash screen"
-    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
-    
-    return true;
-
-#endif
 		//_state = STATE_PLAYING;
 
 		_winSize = CCDirector::sharedDirector()->getWinSize();
 		initBackground();
 
 
+
+		_levelManager = new LevelManager(this);
+		Enemy::sharedEnemy();
             // ship life
 		//TODO:不知道咋从CCTexture2D生成Spirit
 		//CCTexture2D* shipTexture = CCTexture2D:ddImage(s_ship01);
@@ -119,12 +79,20 @@ bool DaFeiJi::init()
 
         // ship
         _ship = new Ship();
-        addChild(_ship, _ship->zOrder, MW_UNIT_TAG_PLAYER);
+        addChild(_ship, _ship->zOrder, PLAYER_TAG);
+		_ship->release();
 
 		setTouchEnabled(true);
 
 		// schedule
         scheduleUpdate();
+		schedule(schedule_selector(DaFeiJi::scoreCounter), 1);
+
+
+		 if (SOUND) {
+			 CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1.0);
+			 CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(s_bgMusic, true);
+            }
 		return true;
 
 #if 0
@@ -319,19 +287,35 @@ void DaFeiJi::removeInactiveUnit(float dt) {
  //              if( typeof selChild.update == 'function' ) {
 					selChild->update(dt);
                     int tag = selChild->getTag();
+					printf("tag  = %d \n",tag);
                     if ((tag == PLAYER_TAG) || (tag == PLAYER_BULLET_TAG) ||
                         (tag == ENEMY_TAG) || (tag == ENMEY_BULLET_TAG)) {
-						DaFeiJiObjectInterface* selChildInterface = (DaFeiJiObjectInterface*)selChild;
-						//FIXME:crashed here
-                        //if (!selChildInterface->isActive()) {
-                        //    selChildInterface->destroy();
-                        //}
+						DaFeiJiObjectInterface* selChildInterface = dynamic_cast<DaFeiJiObjectInterface*>(selChild);
+                        if (!selChildInterface->isActive()) {
+                            selChildInterface->destroy();
+                        }
 //                  }
                 }
             }
         }
     }
 
+
+
+void DaFeiJi::scoreCounter(float dt) 
+{
+        //if( this._state == STATE_PLAYING ) {
+            _time++;
+
+			//没用吧
+            //int minute = 0 | (_time / 60);
+            //int second = _time % 60;
+            //minute = minute > 9 ? minute : "0" + minute;
+            //second = second > 9 ? second : "0" + second;
+            //var curTime = minute + ":" + second;
+            _levelManager->loadLevelResource(_time);
+       // }
+}
 
 
 #if 0

@@ -118,11 +118,15 @@ void Ship::shoot (float dt) {
 		g_PLAYER_BULLETS_CONTAINER->addObject(a);
 
         getParent()->addChild(a, a->zOrder, PLAYER_BULLET_TAG);
+
+		a->release();
         a->setPosition(CCPoint(p.x + offset, p.y + 3 + cs.height * 0.3));
 
         Bullet* b = new Bullet(bulletSpeed, "W1.png",NORMAL);
         g_PLAYER_BULLETS_CONTAINER->addObject(b);
         getParent()->addChild(b, b->zOrder, PLAYER_BULLET_TAG);
+
+		b->release();
         b->setPosition(CCPoint(p.x - offset, p.y + 3 + cs.height * 0.3));
     }
 

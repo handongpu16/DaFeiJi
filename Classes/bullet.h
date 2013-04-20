@@ -20,6 +20,7 @@ private:
 
 public:
 	void  hurt ();
+	bool  isMovedOutOfScreen();
 public:
 	   int zOrder;
 private:;
