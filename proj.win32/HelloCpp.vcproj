@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName).win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName).bin"
 			IntermediateDirectory="$(ConfigurationName).win32"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -65,7 +65,7 @@
 				AdditionalDependencies="opengl32.lib glew32.lib libcocos2d.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(OutDir)"
+				AdditionalLibraryDirectories="&quot;$(OutDir)\..\..\..\..\..\Debug.win32&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
