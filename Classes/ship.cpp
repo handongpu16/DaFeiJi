@@ -49,7 +49,7 @@ void Ship::initialize()
     //var animate = cc.Animate.create(animation);
     //this.runAction(cc.RepeatForever.create(animate));
 
-	schedule(schedule_selector(Ship::shoot), 1 / 6);
+	schedule(schedule_selector(Ship::shoot), (float)1/6);
 
 	//TODO:
     ////revive effect
