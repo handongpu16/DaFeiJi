@@ -255,11 +255,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SysMenu.cpp"
+				RelativePath="..\Classes\SysMenu.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\SysMenu.h"
+				RelativePath="..\Classes\SysMenu.h"
 				>
 			</File>
 		</Filter>

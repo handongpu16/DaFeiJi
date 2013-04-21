@@ -7,8 +7,17 @@ LOCAL_MODULE := hellocpp_shared
 LOCAL_MODULE_FILENAME := libhellocpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../Classes/AppDelegate.cpp \
-                   ../../Classes/HelloWorldScene.cpp
+                   ../../Classes/AppDelegate.cpp 
+                   ../../Classes/AppMacros.cpp
+				   ../../Classes/DaFeiJi.cpp
+				   ../../Classes/bullet.cpp
+				   ../../Classes/enemy.cpp
+				   ../../Classes/explosion.cpp
+				   ../../Classes/LevelManager.cpp
+				   ../../Classes/ship.cpp
+				   ../../Classes/HelloWorldScene.cpp\
+				   ../../Classes/SysMenu.cpp\
+
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
