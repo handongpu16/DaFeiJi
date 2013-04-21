@@ -40,6 +40,7 @@ private:
 	void scoreCounter(float dt);
 	void checkIsCollide () ;
     bool collide(DaFeiJiObjectInterface* a,DaFeiJiObjectInterface* b) ;
+	 void   checkIsReborn () ;
 public:
 	Ship* _ship;
 private:
@@ -58,5 +59,6 @@ private:
 
 	long int _time;
 	LevelManager* _levelManager;
+	int _state;
 };
 #endif //_DAFEIJI_H_

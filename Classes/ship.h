@@ -16,7 +16,7 @@ private:
 	void shoot(float dt);
 
 //implement DaFeiJiObjectInterface
-private:
+public:
 	void destroy();
 	bool isActive(){return active;}
 //overwrite CCObject function

@@ -13,9 +13,12 @@ public:
 
 static void sharedEnemy();
 cocos2d::CCRect collideRect();
+
+void beginMove(cocos2d::CCPoint shipPosition);
 private:
 	void initialize(int enemyType);
 	void update(float dt) ;
+	void onComplete();
 //implement DaFeiJiObjectInterface
 private:
 	virtual void destroy();

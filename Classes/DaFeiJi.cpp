@@ -26,6 +26,10 @@ DaFeiJi::DaFeiJi()
 DaFeiJi::~DaFeiJi(void)
 {
 	delete _levelManager;
+	if(_ship){
+		_ship->release();
+		_ship = NULL;
+	}
 }
 
 
@@ -84,7 +88,10 @@ bool DaFeiJi::init()
         // ship
         _ship = new Ship();
         addChild(_ship, _ship->zOrder, PLAYER_TAG);
-		_ship->release();
+		
+		//state
+		_state = GAME_STATE::PLAY;
+
 
 		setTouchEnabled(true);
 
@@ -245,14 +252,17 @@ void DaFeiJi::menuCloseCallback(CCObject* pSender)
 
 void DaFeiJi::ccTouchesMoved(CCSet * touches, CCEvent *event)
 {
-	CCSetIterator it = touches->begin();
-	CCTouch* touch = (CCTouch*)(*it);
-	CCPoint start = touch->getLocation();    
-	CCPoint delta = touch->getDelta();
-	CCPoint curPos = _ship->getPosition();
-	curPos= ccpAdd( curPos, delta );
-	curPos = ccpClamp(curPos, CCPoint(), CCPoint(_winSize.width, _winSize.height) );
-	_ship->setPosition( curPos );
+	if( _state == GAME_STATE::PLAY ) 
+	{
+		CCSetIterator it = touches->begin();
+		CCTouch* touch = (CCTouch*)(*it);
+		CCPoint start = touch->getLocation();    
+		CCPoint delta = touch->getDelta();
+		CCPoint curPos = _ship->getPosition();
+		curPos= ccpAdd( curPos, delta );
+		curPos = ccpClamp(curPos, CCPoint(), CCPoint(_winSize.width, _winSize.height) );
+		_ship->setPosition( curPos );
+	}
 }
 
 
@@ -271,12 +281,12 @@ void DaFeiJi::processEvent(CCEvent *pEvent) {
 }
 
 void DaFeiJi::update(float dt) {
-       // if( _state == STATE_PLAYING ) {
+	if( _state == GAME_STATE::PLAY ) {
             checkIsCollide();
             removeInactiveUnit(dt);
-           // checkIsReborn();
+            checkIsReborn();
            // updateUI();
-     //   }
+        }
 
         //if( cc.config.deviceType == 'browser' )
         //    cc.$("#cou").innerHTML = "Ship:" + 1 + ", Enemy: " + MW.CONTAINER.ENEMIES.length + ", Bullet:" + MW.CONTAINER.ENEMY_BULLETS.length + "," + MW.CONTAINER.PLAYER_BULLETS.length + " all:" + this.getChildren().length;
@@ -370,6 +380,25 @@ void DaFeiJi::checkIsCollide ()
         CCRect aRect = a->collideRect();
         CCRect bRect = b->collideRect();
         return CCRect::CCRectIntersectsRect(aRect, bRect);
+    }
+
+ void   DaFeiJi::checkIsReborn () {
+        if (g_LIFE > 0 && !_ship->isActive()) {
+            // ship
+			_ship->release();
+            _ship = new Ship();
+            addChild(_ship, _ship->zOrder, PLAYER_TAG);
+        }
+		else if (g_LIFE <= 0 && !_ship->isActive()) {
+			_state = GAME_STATE::OVER;
+            // XXX: needed for JS bindings.
+			_ship->release();
+            _ship = NULL;
+			//TODO:goto GameOver
+            //this.runAction(cc.Sequence.create(
+            //    cc.DelayTime.create(0.2),
+            //    cc.CallFunc.create(this, onGameOver)));
+        }
     }
 
 #if 0

@@ -34,7 +34,6 @@ Enemy::~Enemy(void)
 
 void Enemy::initialize(int enemyType)
 {
-
 	switch(enemyType)
 	{
 	case 0:
@@ -77,70 +76,82 @@ void Enemy::initialize(int enemyType)
         scoreValue = 80;
 		}
 		break;
+	case 4:
+		{
+        textureName = "E4.png";
+        bulletType = "W2.png";
+        HP = 10;
+		moveType = ENEMY_MOVE_TYPE::HORIZONTAL;
+		attackMode = ENEMY_ATTACK_MODE::TSUIHIKIDAN;
+        scoreValue = 150;
+		}
+		break;
+	case 5:
+		{
+        textureName = "E5.png";
+        bulletType = "W2.png";
+        HP = 15;
+		moveType = ENEMY_MOVE_TYPE::HORIZONTAL;
+		attackMode = ENEMY_ATTACK_MODE::NORMAL;
+        scoreValue = 200;
+		}
+		break;
 	default:
 		break;
 	}
-
-	//TODO: 根据类型创建敌人
-    //{
-    //    type:0,
-    //    textureName:"E0.png",
-    //    bulletType:"W2.png",
-    //    HP:1,
-    //    moveType:MW.ENEMY_MOVE_TYPE.ATTACK,
-    //    attackMode:MW.ENEMY_MOVE_TYPE.NORMAL,
-    //    scoreValue:15
-    //},
-    //{
-    //    type:1,
-    //    textureName:"E1.png",
-    //    bulletType:"W2.png",
-    //    HP:2,
-    //    moveType:MW.ENEMY_MOVE_TYPE.ATTACK,
-    //    attackMode:MW.ENEMY_MOVE_TYPE.NORMAL,
-    //    scoreValue:40
-    //},
-    //{
-    //    type:2,
-    //    textureName:"E2.png",
-    //    bulletType:"W2.png",
-    //    HP:4,
-    //    moveType:MW.ENEMY_MOVE_TYPE.HORIZONTAL,
-    //    attackMode:MW.ENEMY_ATTACK_MODE.TSUIHIKIDAN,
-    //    scoreValue:60
-    //},
-    //{
-    //    type:3,
-    //    textureName:"E3.png",
-    //    bulletType:"W2.png",
-    //    HP:6,
-    //    moveType:MW.ENEMY_MOVE_TYPE.OVERLAP,
-    //    attackMode:MW.ENEMY_MOVE_TYPE.NORMAL,
-    //    scoreValue:80
-    //},
-    //{
-    //    type:4,
-    //    textureName:"E4.png",
-    //    bulletType:"W2.png",
-    //    HP:10,
-    //    moveType:MW.ENEMY_MOVE_TYPE.HORIZONTAL,
-    //    attackMode:MW.ENEMY_ATTACK_MODE.TSUIHIKIDAN,
-    //    scoreValue:150
-    //},
-    //{
-    //    type:5,
-    //    textureName:"E5.png",
-    //    bulletType:"W2.png",
-    //    HP:15,
-    //    moveType:MW.ENEMY_MOVE_TYPE.HORIZONTAL,
-    //    attackMode:MW.ENEMY_MOVE_TYPE.NORMAL,
-    //    scoreValue:200
-    //}
 
     initWithSpriteFrameName(textureName);
 	schedule(schedule_selector(Enemy::shoot), delayTime);
 }
 
+
+void Enemy::beginMove(CCPoint shipPosition)
+{
+		CCSize winSize =  CCDirector::sharedDirector()->getWinSize();
+		CCPoint enemypos = CCPoint( 80 + (winSize.width - 160) * (int)CCRANDOM_0_1(), winSize.height);
+        CCSize enemycs =  getContentSize();
+        setPosition( enemypos );
+        
+        CCPoint offset;
+		CCAction* tmpAction = NULL;
+        CCMoveBy * a0= NULL;
+        CCMoveBy * a1= NULL;
+        switch (moveType) {
+			case ENEMY_MOVE_TYPE::ATTACK:
+                offset = shipPosition;
+				tmpAction = CCMoveTo::create(1, offset);
+                break;
+			case ENEMY_MOVE_TYPE::VERTICAL:
+                offset = CCPoint(0, -winSize.height - enemycs.height);
+				tmpAction = CCMoveBy::create(4, offset);
+                break;
+			case ENEMY_MOVE_TYPE::HORIZONTAL:
+                offset = CCPoint(0, -100 - 200 * (int)CCRANDOM_0_1());
+				a0 = CCMoveBy::create(0.5, offset);
+				a1 = CCMoveBy::create(1, CCPoint(-50 - 100 * (int)CCRANDOM_0_1(), 0));
+				tmpAction = CCSequence::create(a0, a1, CCCallFunc::create(this,callfunc_selector(Enemy::onComplete)),NULL);
+                break;
+			case ENEMY_MOVE_TYPE::OVERLAP:
+                int newX = (enemypos.x <= winSize.width / 2) ? 320 : -320;
+				a0 = CCMoveBy::create(4, CCPoint(newX, -240));
+				a1 = CCMoveBy::create(4, CCPoint(-newX,-320));
+				tmpAction = CCSequence::create(a0,a1,NULL);
+                break;
+        }
+		if(tmpAction){
+			runAction(tmpAction);
+		}
+}
+
+void Enemy::onComplete()
+{
+	CCDelayTime* a2 = CCDelayTime::create(1);
+	CCMoveBy* a3 = CCMoveBy::create(1, CCPoint(100 + 100 * (int)CCRANDOM_0_1(), 0));
+	
+	runAction(CCRepeatForever::create((CCActionInterval*)
+		CCSequence::create(a2, a3,  a2->copy()->autorelease(), a3->reverse(),NULL)
+    ));//这里这个用法太操蛋...,还要强制类型装换，参考ActionsEaseTest.cpp SpriteEase::onEnter()
+}
 
  void  Enemy::update(float dt) 
 {
