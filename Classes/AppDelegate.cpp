@@ -2,6 +2,7 @@
 #include "HelloWorldScene.h"
 #include "DaFeiJi.h"
 #include "AppMacros.h"
+#include "SysMenu.h"
 
 USING_NS_CC;
 
@@ -17,12 +18,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     CCDirector* pDirector = CCDirector::sharedDirector();
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
-
+	//pEGLView->set(1024,768);
     pDirector->setOpenGLView(pEGLView);
 
     // Set the design resolution
-    //pEGLView->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, kResolutionNoBorder);
-    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(320, 480, kResolutionShowAll);
+    //pEGLView->setDesignResolutionSize(320,480, kResolutionShowAll);
+    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(320, 480, kResolutionNoBorder);
 
 	CCSize frameSize = pEGLView->getFrameSize();
 
@@ -51,7 +52,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 #else
 		CCFileUtils::sharedFileUtils()->setResourceDirectory(winResource.directory);
-        pDirector->setContentScaleFactor(largeResource.size.height/designResolutionSize.height);
+        //pDirector->setContentScaleFactor(largeResource.size.height/designResolutionSize.height);
 #endif
     // turn on display FPS
     pDirector->setDisplayStats(true);
@@ -62,7 +63,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
    // CCScene *pScene = HelloWorld::scene();
 	
-	CCScene *pScene = DaFeiJi::scene();
+	CCScene *pScene = SysMenu::scene();
     // run
     pDirector->runWithScene(pScene);
 

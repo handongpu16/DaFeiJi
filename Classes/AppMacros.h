@@ -41,7 +41,7 @@ static Resource mediumResource =  { cocos2d::CCSizeMake(1024, 768),  "ipad"   };
 static Resource largeResource  =  { cocos2d::CCSizeMake(2048, 1536), "ipadhd" };
 
 //new resource
-static Resource winResource  =  { cocos2d::CCSizeMake(1024, 768),  "win"   };
+static Resource winResource  =  { cocos2d::CCSizeMake(320, 480),  "win"   };
 static const char s_bg01[]                = "bg01.jpg";
 static const char s_level01[]             = "level01.tmx";
 static const char s_ship01[]              = "ship01.png";
@@ -53,6 +53,11 @@ static const char s_shipDestroyEffect[]			  = "Music/shipDestroyEffect.mp3";
 static const char s_explodeEffect[]			  = "Music/explodeEffect.mp3"; 
 static const char s_explosion_plist[]			  = "explosion.plist"; 
 static const char s_arial14_fnt[]			  = "arial-14.fnt"; 
+static const char s_menu[]			  = "menu.png";
+static const char s_loading[]			  = "loading.png";
+static const char s_logo[]			  = "logo.png";
+
+
 
 
 #if (TARGET_DESIGN_RESOLUTION_SIZE == DESIGN_RESOLUTION_480X320)
