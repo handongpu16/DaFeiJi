@@ -49,12 +49,6 @@ void Explosion::sharedExplosion()
 };
 
 
-string Explosion::iToString(int id)
-{
-	char buf[10];
-	return string(_itoa(id,buf,10));
-}
-
 #if 0
 var Explosion = cc.Sprite.extend({
     tmpWidth:0,

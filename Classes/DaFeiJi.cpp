@@ -20,7 +20,7 @@ DaFeiJi::DaFeiJi()
 	_isBackSkyReload =false;
 	_isBackTileReload = false;
 	_time = 0;
-	
+	_tmpScore = 0;
 }
 
 DaFeiJi::~DaFeiJi(void)
@@ -58,118 +58,58 @@ bool DaFeiJi::init()
         return false;
     }
 
-		//_state = STATE_PLAYING;
+	//_state = STATE_PLAYING;
 
-		_winSize = CCDirector::sharedDirector()->getWinSize();
-		_screenRect = CCRect(0, 0, _winSize.width, _winSize.height + 10);
+	_winSize = CCDirector::sharedDirector()->getWinSize();
+	_screenRect = CCRect(0, 0, _winSize.width, _winSize.height + 10);
 
-		initBackground();
-
-
-
-		_levelManager = new LevelManager(this);
-		Explosion::sharedExplosion() ;
-		Enemy::sharedEnemy();
-            // ship life
-		//TODO:不知道咋从CCTexture2D生成Spirit
-		//CCTexture2D* shipTexture = CCTexture2D:ddImage(s_ship01);
-		//CCSprite* life = CCSprite::createWithTexture(shipTexture, CCRect(0, 0, 60, 38));
-		CCSprite* life = CCSprite::create(s_ship01, CCRect(0, 0, 60, 38));
-        life->setScale(0.6);
-		life->setPosition(CCPoint(30, 460));
-        addChild(life, 1, 5);
-
-        // ship Life count
-		_lbLife = CCLabelTTF::create("0", "Arial", 20);
-        _lbLife->setPosition(CCPoint(60, 463));
-        _lbLife->setColor(ccRED);
-        addChild(_lbLife, 1000);
-
-        // ship
-        _ship = new Ship();
-        addChild(_ship, _ship->zOrder, PLAYER_TAG);
-		
-		//state
-		_state = GAME_STATE::PLAY;
+	initBackground();
 
 
-		setTouchEnabled(true);
+	_levelManager = new LevelManager(this);
+	Explosion::sharedExplosion() ;
+	Enemy::sharedEnemy();
 
-		// schedule
-        scheduleUpdate();
-		schedule(schedule_selector(DaFeiJi::scoreCounter), 1);
+    // score
+	_lbScore = CCLabelBMFont::create("Score: 0", s_arial14_fnt);
+    _lbScore->setAnchorPoint( CCPoint(1,0) );
+    _lbScore->setAlignment( kCCTextAlignmentRight );
+    addChild(_lbScore, 1000);
+    _lbScore->setPosition(CCPoint(_winSize.width - 10 , _winSize.height - 30));
+
+    // ship life
+	CCTexture2D* shipTexture = CCTextureCache::sharedTextureCache()->addImage(s_ship01);
+	CCSprite* life = CCSprite::createWithTexture(shipTexture, CCRect(0, 0, 60, 38));
+    life->setScale(0.6);
+	life->setPosition(CCPoint(30, 460));
+    addChild(life, 1, 5);
+
+    // ship Life count
+	_lbLife = CCLabelTTF::create("0", "Arial", 20);
+    _lbLife->setPosition(CCPoint(60, 463));
+    _lbLife->setColor(ccRED);
+    addChild(_lbLife, 1000);
+
+    // ship
+    _ship = new Ship();
+    addChild(_ship, _ship->zOrder, PLAYER_TAG);
+	
+	//state
+	_state = GAME_STATE::PLAY;
 
 
-		 if (SOUND) {
-			 CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1.0);
-			 CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(s_bgMusic, true);
-            }
-		return true;
+	setTouchEnabled(true);
 
-#if 0
-     // reset global values
-            MW.CONTAINER.ENEMIES = [];
-            MW.CONTAINER.ENEMY_BULLETS = [];
-            MW.CONTAINER.PLAYER_BULLETS = [];
-            MW.SCORE = 0;
-            MW.LIFE = 4;
-            this._state = STATE_PLAYING;
+	// schedule
+    scheduleUpdate();
+	schedule(schedule_selector(DaFeiJi::scoreCounter), 1);
 
-            Explosion.sharedExplosion();
-            Enemy.sharedEnemy();
-			winSize = CCDirector::getWinSize();
-            this._levelManager = new LevelManager(this);
-            this.initBackground();
-            this.screenRect = cc.rect(0, 0, winSize.width, winSize.height + 10);
 
-            // score
-            this.lbScore = cc.LabelBMFont.create("Score: 0", s_arial14_fnt);
-            this.lbScore.setAnchorPoint( cc.p(1,0) );
-            this.lbScore.setAlignment( cc.TEXT_ALIGNMENT_RIGHT );
-            this.addChild(this.lbScore, 1000);
-            this.lbScore.setPosition(cc.p(winSize.width - 5 , winSize.height - 30));
-
-            // ship life
-            var shipTexture = cc.TextureCache.getInstance().addImage(s_ship01);
-            var life = cc.Sprite.createWithTexture(shipTexture, cc.rect(0, 0, 60, 38));
-            life.setScale(0.6);
-            life.setPosition(cc.p(30, 460));
-            this.addChild(life, 1, 5);
-
-            // ship Life count
-            this._lbLife = cc.LabelTTF.create("0", "Arial", 20);
-            this._lbLife.setPosition(cc.p(60, 463));
-            this._lbLife.setColor(cc.RED);
-            this.addChild(this._lbLife, 1000);
-
-            // ship
-            this._ship = new Ship();
-            this.addChild(this._ship, this._ship.zOrder, MW.UNIT_TAG.PLAYER);
-
-            // accept touch now!
-
-            var t = cc.config.deviceType;
-            if( t == 'browser' )  {
-                this.setTouchEnabled(true);
-                this.setKeyboardEnabled(true);
-            } else if( t == 'desktop' ) {
-                this.setMouseEnabled(true);
-            } else if( t == 'mobile' ) {
-                this.setTouchEnabled(true);
-            }
-
-            // schedule
-            this.scheduleUpdate();
-            this.schedule(this.scoreCounter, 1);
-
-            if (MW.SOUND) {
-                cc.AudioEngine.getInstance().playBackgroundMusic(s_bgMusic, true);
-            }
-
-            bRet = true;
-
-#endif
-
+	 if (SOUND) {
+		 CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(1.0);
+		 CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(s_bgMusic, true);
+        }
+	return true;
 }
 
 
@@ -285,7 +225,7 @@ void DaFeiJi::update(float dt) {
             checkIsCollide();
             removeInactiveUnit(dt);
             checkIsReborn();
-           // updateUI();
+            updateUI();
         }
 
         //if( cc.config.deviceType == 'browser' )
@@ -391,7 +331,6 @@ void DaFeiJi::checkIsCollide ()
         }
 		else if (g_LIFE <= 0 && !_ship->isActive()) {
 			_state = GAME_STATE::OVER;
-            // XXX: needed for JS bindings.
 			_ship->release();
             _ship = NULL;
 			//TODO:goto GameOver
@@ -399,6 +338,19 @@ void DaFeiJi::checkIsCollide ()
             //    cc.DelayTime.create(0.2),
             //    cc.CallFunc.create(this, onGameOver)));
         }
+    }
+
+
+ void DaFeiJi::updateUI() {
+        if (_tmpScore < g_SCORE) {
+            _tmpScore += 5;
+        }
+		char buf[100];
+		sprintf(buf,"%d",g_LIFE);
+        _lbLife->setString(buf);
+
+		sprintf(buf,"Score: %ld",_tmpScore);
+        _lbScore->setString(buf);
     }
 
 #if 0

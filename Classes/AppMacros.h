@@ -52,8 +52,7 @@ static const char s_Enemy[]				  = "Enemy.png";
 static const char s_shipDestroyEffect[]			  = "Music/shipDestroyEffect.mp3"; 
 static const char s_explodeEffect[]			  = "Music/explodeEffect.mp3"; 
 static const char s_explosion_plist[]			  = "explosion.plist"; 
-
-
+static const char s_arial14_fnt[]			  = "arial-14.fnt"; 
 
 
 #if (TARGET_DESIGN_RESOLUTION_SIZE == DESIGN_RESOLUTION_480X320)
@@ -89,10 +88,10 @@ enum LEVEL {
 };
 
 //life
-static int g_LIFE = 4;
+extern int g_LIFE;
 
 //score
-static int g_SCORE = 0;
+extern int g_SCORE;
 
 //sound
 static const bool SOUND = true;

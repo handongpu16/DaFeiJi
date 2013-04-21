@@ -14,7 +14,7 @@ public:
 private:
 	void initialize();
 	void shoot(float dt);
-
+	void callBack();
 //implement DaFeiJiObjectInterface
 public:
 	void destroy();
@@ -43,6 +43,7 @@ private:;
    int _hurtColorLife;
    bool active;
    float _timeTick;
+   cocos2d::CCSprite* ghostSprite;
 };
 
 #endif //_SHIP_H_

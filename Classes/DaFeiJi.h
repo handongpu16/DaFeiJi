@@ -40,7 +40,8 @@ private:
 	void scoreCounter(float dt);
 	void checkIsCollide () ;
     bool collide(DaFeiJiObjectInterface* a,DaFeiJiObjectInterface* b) ;
-	 void   checkIsReborn () ;
+	void checkIsReborn () ;
+	void updateUI() ;
 public:
 	Ship* _ship;
 private:
@@ -56,9 +57,10 @@ private:
 	cocos2d::CCRect _screenRect;
 
 	cocos2d::CCLabelTTF* _lbLife;
-
+	cocos2d::CCLabelBMFont* _lbScore;
 	long int _time;
 	LevelManager* _levelManager;
 	int _state;
+	long _tmpScore;
 };
 #endif //_DAFEIJI_H_

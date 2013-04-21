@@ -1,5 +1,6 @@
 #include "ship.h"
 #include "bullet.h"
+#include "explosion.h"
 
 #include "SimpleAudioEngine.h"
 USING_NS_CC;
@@ -31,46 +32,48 @@ Ship::~Ship(void)
 
 void Ship::initialize()
 {
-    //init life
-	initWithFile(s_ship01, CCRect(0, 0, 60, 38));
+	CCTexture2D* shipTexture = CCTextureCache::sharedTextureCache()->addImage(s_ship01);
+    initWithTexture(shipTexture, CCRect(0, 0, 60, 38));
 
-    setTag(zOrder);
+    //setTag(PLAYER_TAG);
     setPosition(appearPosition);
 
-	//TODO:加上动画
-    //// set frame
-    //var frame0 = cc.SpriteFrame.createWithTexture(shipTexture, cc.rect(0, 0, 60, 38));
-    //var frame1 = cc.SpriteFrame.createWithTexture(shipTexture, cc.rect(60, 0, 60, 38));
+    // set frame
+	CCSpriteFrame* frame0 = CCSpriteFrame::createWithTexture(shipTexture, CCRect(0, 0, 60, 38));
+	CCSpriteFrame* frame1 = CCSpriteFrame::createWithTexture(shipTexture, CCRect(60, 0, 60, 38));
 
-    //var animFrames = [];
-    //animFrames.push(frame0);
-    //animFrames.push(frame1);
+	CCArray* animFrames = CCArray::createWithCapacity(4);
+    animFrames->addObject(frame0);
+	animFrames->addObject(frame1);
 
-    //// ship animate
-    //var animation = cc.Animation.create(animFrames, 0.1);
-    //var animate = cc.Animate.create(animation);
-    //this.runAction(cc.RepeatForever.create(animate));
+    // ship animate
+	CCAnimation* animation = CCAnimation::createWithSpriteFrames(animFrames, 0.1);
+	CCAnimate* animate = CCAnimate::create(animation);
+	runAction(CCRepeatForever::create(animate));
 
 	schedule(schedule_selector(Ship::shoot), (float)1/6);
 
-	//TODO:
-    ////revive effect
-    //this.canBeAttack = false;
-    //var ghostSprite = cc.Sprite.createWithTexture(shipTexture, cc.rect(0, 45, 60, 38));
-    //ghostSprite.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
-    //ghostSprite.setScale(8);
-    //ghostSprite.setPosition(cc.p(this.getContentSize().width / 2, 12));
-    //this.addChild(ghostSprite, 3000, 99999);
-    //ghostSprite.runAction(cc.ScaleTo.create(0.5, 1, 1));
-    //var blinks = cc.Blink.create(3, 9);
-    //var makeBeAttack = cc.CallFunc.create(this, function (t) {
-    //    t.canBeAttack = true;
-    //    t.setVisible(true);
-    //    t.removeChild(ghostSprite,true);
-    //});
-    //this.runAction(cc.Sequence.create(cc.DelayTime.create(0.5), blinks, makeBeAttack));
+
+    //revive effect
+    canBeAttack = false;
+	ghostSprite = CCSprite::createWithTexture(shipTexture, CCRect(0, 45, 60, 38));
+	ccBlendFunc fun = {GL_SRC_ALPHA, GL_ONE};
+    ghostSprite->setBlendFunc(fun);
+    ghostSprite->setScale(8);
+    ghostSprite->setPosition(CCPoint(getContentSize().width / 2, 12));
+    addChild(ghostSprite, 3000, 99999);
+	ghostSprite->runAction(CCScaleTo::create(0.5, 1, 1));
+
+	CCBlink* blinks = CCBlink::create(3, 9);
+	CCCallFunc* makeBeAttack = CCCallFunc::create(this,callfunc_selector(Ship::callBack) );
+	runAction(CCSequence::create(CCDelayTime::create(0.5), blinks, makeBeAttack,NULL));
 }
 
+void Ship::callBack() {
+        canBeAttack = true;
+        setVisible(true);
+        removeChild(ghostSprite,true);
+    }
 
 void Ship::update (float dt) {
 
@@ -139,27 +142,29 @@ void Ship::destroy()
         g_LIFE--;
         CCPoint p = getPosition();
         CCNode* myParent = getParent();
-		//TODO:飞机添加爆炸效果
-        //myParent->addChild( new Explosion(p) );
+		Explosion* exp = new Explosion();
+		exp->setPosition(p);
+		myParent->addChild(exp);
+		exp->release();
         myParent->removeChild(this,true);
-		//TODO:添加爆炸声音
         if (SOUND) {
 			SimpleAudioEngine::sharedEngine()->playEffect(s_shipDestroyEffect);
         }
 }
-    void Ship::hurt() 
-	{
-        if (canBeAttack) {
-            _hurtColorLife = 2;
-            HP--;
-            setColor(ccRED);
-        }
-    }
 
-    CCRect Ship::collideRect()
-	{
-        CCPoint p = getPosition();
-        CCSize a = getContentSize();
-        return CCRect(p.x - a.width/2, p.y - a.height/2, a.width, a.height/2);
-         
+void Ship::hurt() 
+{
+    if (canBeAttack) {
+        _hurtColorLife = 2;
+        HP--;
+        setColor(ccRED);
     }
+}
+
+CCRect Ship::collideRect()
+{
+    CCPoint p = getPosition();
+    CCSize a = getContentSize();
+    return CCRect(p.x - a.width/2, p.y - a.height/2, a.width, a.height/2);
+     
+}
