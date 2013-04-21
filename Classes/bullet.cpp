@@ -77,7 +77,7 @@ void Bullet::initialize(int bulletSpeed, const char* weaponType,int attackMode)
         //explode.setScale(0.75);
         //this.getParent().addChild(explode,9999);
 		g_ENEMY_BULLETS_CONTAINER->removeObject(this);
-        g_ENEMY_BULLETS_CONTAINER->removeObject(this);
+        g_PLAYER_BULLETS_CONTAINER->removeObject(this);
         removeFromParentAndCleanup(true);
 	
 	//var removeExplode = cc.CallFunc.create(explode, function(sender) {
