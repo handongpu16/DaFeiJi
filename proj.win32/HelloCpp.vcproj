@@ -254,6 +254,14 @@
 				RelativePath="..\Classes\ship.h"
 				>
 			</File>
+			<File
+				RelativePath=".\SysMenu.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SysMenu.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="win32"
