@@ -1,7 +1,9 @@
 #include "ship.h"
 #include "bullet.h"
+
+#include "SimpleAudioEngine.h"
 USING_NS_CC;
- 
+using namespace CocosDenshion;
 
 Ship::Ship():
 appearPosition(160,60)
@@ -141,9 +143,9 @@ void Ship::destroy()
         //myParent->addChild( new Explosion(p) );
         myParent->removeChild(this,true);
 		//TODO:Ìí¼Ó±¬Õ¨ÉùÒô
-   //     if (SOUND) {
-			//CCAudioEngine::getInstance().playEffect(s_shipDestroyEffect);
-   //     }
+        if (SOUND) {
+			SimpleAudioEngine::sharedEngine()->playEffect(s_shipDestroyEffect);
+        }
 }
     void Ship::hurt() 
 	{

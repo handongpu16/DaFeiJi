@@ -1,6 +1,10 @@
 #include "enemy.h"
 #include "math.h"
 #include "bullet.h"
+#include "SimpleAudioEngine.h"
+#include "explosion.h"
+
+using namespace CocosDenshion;
 USING_NS_CC;
 
 Enemy::Enemy(int enemyType)
@@ -160,15 +164,17 @@ void Enemy::initialize(int enemyType)
 
  void Enemy::destroy () {
         g_SCORE += scoreValue;
-        //var a = new Explosion();
-        //a.setPosition(this.getPosition());
-        //this.getParent().addChild(a);
-        //spark(this.getPosition(),this.getParent(), 1.2, 0.7);
+        Explosion* a = new Explosion();
+        a->setPosition(getPosition());
+        getParent()->addChild(a);
+		//TODO:
+       // spark(getPosition(),getParent(), 1.2, 0.7);
+		a->release();
 		g_ENEMIES_CONTAINER->removeObject(this);
         removeFromParentAndCleanup(true);
-        //if(MW.SOUND){
-        //    cc.AudioEngine.getInstance().playEffect(s_explodeEffect);
-        //}
+        if(SOUND){
+			SimpleAudioEngine::sharedEngine()->playEffect(s_explodeEffect);
+        }
     }
 
  void  Enemy::hurt () {

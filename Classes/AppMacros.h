@@ -49,6 +49,10 @@ static const char s_bullet_plist[]        = "bullet.plist";
 static const char s_bgMusic[]			  = "Music/bgMusic.mp3"; //TODO:
 static const char s_Enemy_plist[]		  = "Enemy.plist";
 static const char s_Enemy[]				  = "Enemy.png";
+static const char s_shipDestroyEffect[]			  = "Music/shipDestroyEffect.mp3"; 
+static const char s_explodeEffect[]			  = "Music/explodeEffect.mp3"; 
+static const char s_explosion_plist[]			  = "explosion.plist"; 
+
 
 
 

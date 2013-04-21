@@ -4,6 +4,7 @@
 #include "SimpleAudioEngine.h"
 #include "LevelManager.h"
 #include "enemy.h"
+#include "explosion.h"
 
 USING_NS_CC;
 
@@ -63,6 +64,7 @@ bool DaFeiJi::init()
 
 
 		_levelManager = new LevelManager(this);
+		Explosion::sharedExplosion() ;
 		Enemy::sharedEnemy();
             // ship life
 		//TODO:不知道咋从CCTexture2D生成Spirit

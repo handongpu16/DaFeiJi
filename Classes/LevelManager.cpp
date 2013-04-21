@@ -39,11 +39,11 @@ void LevelManager::loadLevelResource(long deltaTime)
         //        }
         //    }
         //}
-		if(2 == deltaTime){
+		if( deltaTime % 5 ==0){
 			addEnemyToGameLayer(0);
-		}else if(3 == deltaTime)
+		}else if(deltaTime % 7 ==0)
 			addEnemyToGameLayer(1);
-		else if(4 == deltaTime)
+		else if(deltaTime % 8==0)
 			addEnemyToGameLayer(2);
 }
 

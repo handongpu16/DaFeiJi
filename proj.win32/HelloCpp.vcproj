@@ -223,6 +223,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Classes\explosion.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Classes\explosion.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Classes\HelloWorldScene.cpp"
 				>
 			</File>
