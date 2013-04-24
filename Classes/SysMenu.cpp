@@ -1,10 +1,14 @@
 #include "SysMenu.h"
 #include "AppMacros.h"
 #include "DaFeiJi.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 USING_NS_CC;
 
 SysMenu::SysMenu(void):ship(NULL)
 {
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic(s_mainMainMusic);
 }
 
 SysMenu::~SysMenu(void)
@@ -23,7 +27,7 @@ CCScene* SysMenu::scene()
         // 'layer' is an autorelease object
         SysMenu *layer = SysMenu::create();
         CC_BREAK_IF(! layer);
-
+         
         // add layer as a child to scene
         scene->addChild(layer);
     } while (0);
@@ -145,6 +149,11 @@ bool SysMenu::init()
         CCPoint pos = ccp(CCRANDOM_0_1() * winSize.width, 0);
         this->ship->setPosition( pos );
 		this->ship->runAction(CCMoveBy::create(2, ccp(CCRANDOM_0_1() * winSize.width, pos.y + winSize.height + 100)));
+
+		if (SOUND) {
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.7);
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(s_mainMainMusic, true);
+        }
 
 		bRet = true;
 	}while(0);

@@ -51,9 +51,12 @@ void LevelManager::loadLevelResource(long deltaTime)
 void LevelManager::addEnemyToGameLayer(int enemyType)
 {
         Enemy* addEnemy = new Enemy(enemyType);
-		addEnemy->beginMove(_gameLayer->_ship->getPosition());
-		_gameLayer->addChild(addEnemy, addEnemy->zOrder,ENEMY_TAG);
-		g_ENEMIES_CONTAINER->addObject(addEnemy);
+		if(NULL != _gameLayer->_ship)
+		{
+			addEnemy->beginMove(_gameLayer->_ship->getPosition());
+			_gameLayer->addChild(addEnemy, addEnemy->zOrder,ENEMY_TAG);
+			g_ENEMIES_CONTAINER->addObject(addEnemy);
+		}
 		addEnemy->release();
     }
 
