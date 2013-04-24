@@ -124,7 +124,7 @@ bool SysMenu::init()
             //    this.onButtonEffect();
             //   flareEffect(this, this, this.onNewGame);
 			//}
-			menu_selector(SysMenu::onNewGame)
+			menu_selector(SysMenu::onStart)
 		);
 		CCMenuItemSprite *gameSettings = CCMenuItemSprite::create(gameSettingsNormal, 
 			gameSettingsSelected, 
@@ -162,7 +162,7 @@ bool SysMenu::init()
 
 
 
-void SysMenu ::onNewGame(CCObject* pSender)
+void SysMenu ::onNewGame()
 {
 	CCScene *scene = CCScene::create();
 	scene->addChild(DaFeiJi::create());
@@ -184,5 +184,50 @@ void SysMenu::onAbout(CCObject* pSender)
 
 void SysMenu::onButtonEffect(CCObject* pSender)
 {
+	if (SOUND) {
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(s_buttonEffect,true);
+        }
 }
 
+void SysMenu::onStart(CCObject* pSender)
+{
+	this->onButtonEffect(pSender);
+	this->flareEffect(this,this,callfunc_selector(SysMenu::onNewGame));
+}
+
+void  SysMenu::flareEffect(CCLayer* parent, CCLayer* target, SEL_CallFunc callback)
+{
+	CCSprite* flare = CCSprite::create(s_flare);
+    
+    ccBlendFunc bf = {GL_SRC_ALPHA, GL_ONE};
+	flare->setBlendFunc(bf);
+
+    parent->addChild(flare, 10);
+    flare->setOpacity(0);
+    flare->setPosition(ccp(-30, 297));
+    flare->setRotation(-120);
+    flare->setScale(0.2);
+
+	CCFadeTo* opacityAnim = CCFadeTo::create(0.5, 255);
+	CCFadeTo* opacDim = CCFadeTo::create(1, 0);
+	CCScaleBy* biggeAnim = CCScaleBy::create(0.7, 1.2, 1.2);
+	CCEaseSineOut* biggerEase = CCEaseSineOut::create(biggeAnim);
+	CCMoveBy* moveAnim = CCMoveBy::create(0.5, ccp(328, 0));
+	CCEaseSineOut* easeMove = CCEaseSineOut::create(moveAnim);
+	CCRotateBy* rotateAnim = CCRotateBy::create(2.5, 90);
+	CCEaseExponentialOut* rotateEase = CCEaseExponentialOut::create(rotateAnim);
+	CCScaleTo* bigger = CCScaleTo::create(0.5, 1);
+
+	CCCallFunc* onComplete = CCCallFunc::create(target, callback);
+	CCCallFunc* killflare = CCCallFunc::create(flare, callfunc_selector(SysMenu::removeChild));
+	flare->runAction(CCSequence::create(opacityAnim, biggerEase, opacDim, killflare, onComplete,NULL));
+    flare->runAction(easeMove);
+    flare->runAction(rotateEase);
+    flare->runAction(bigger);
+
+}
+
+void  SysMenu::removeChild()
+{
+	this->getParent()->removeChild(this,true);
+}

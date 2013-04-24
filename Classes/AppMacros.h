@@ -46,18 +46,22 @@ static const char s_bg01[]                = "bg01.jpg";
 static const char s_level01[]             = "level01.tmx";
 static const char s_ship01[]              = "ship01.png";
 static const char s_bullet_plist[]        = "bullet.plist";
-static const char s_bgMusic[]			  = "win/Music/bgMusic.mp3"; //TODO:
+
 static const char s_Enemy_plist[]		  = "Enemy.plist";
 static const char s_Enemy[]				  = "Enemy.png";
-static const char s_shipDestroyEffect[]			  = "win/Music/shipDestroyEffect.mp3"; 
-static const char s_explodeEffect[]			  = "win/Music/explodeEffect.mp3"; 
+
 static const char s_explosion_plist[]			  = "explosion.plist"; 
 static const char s_arial14_fnt[]			  = "arial-14.fnt"; 
 static const char s_menu[]			  = "menu.png";
 static const char s_loading[]			  = "loading.png";
 static const char s_logo[]			  = "logo.png";
+static const char s_flare[]			  = "flare.jpg";
 
 static const char s_mainMainMusic[] = "win/Music/mainMainMusic.mp3";
+static const char s_buttonEffect[] = "win/Music/buttonEffet.mp3";
+static const char s_shipDestroyEffect[]			  = "win/Music/shipDestroyEffect.mp3"; 
+static const char s_explodeEffect[]			  = "win/Music/explodeEffect.mp3"; 
+static const char s_bgMusic[]			  = "win/Music/bgMusic.mp3"; //TODO:
 
 #if (TARGET_DESIGN_RESOLUTION_SIZE == DESIGN_RESOLUTION_480X320)
 static cocos2d::CCSize designResolutionSize = cocos2d::CCSizeMake(480, 320);
